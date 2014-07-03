@@ -21,10 +21,10 @@ CREATE SEQUENCE sq_id_usuario
 
 CREATE TABLE  Usuario (
  id_usuario integer NOT NULL DEFAULT nextval('puc_rastro.sq_id_usuario'::regclass),
- nome_usuario character varying(100),
- email_usuario character varying(150),
+ nome_usuario character varying(100) NOT NULL,
+ email_usuario character varying(150) NOT NULL,
  telefone_usuario character varying(50),
- senha_usuario character varying(20),
+ senha_usuario character varying(20) NOT NULL,
  sobrenome_usuario character varying(100),
  CONSTRAINT pk_id_usuario PRIMARY KEY (id_usuario)
 )
@@ -45,9 +45,9 @@ CREATE SEQUENCE sq_id_projeto
 CREATE TABLE  Projeto (
  id_projeto integer NOT NULL DEFAULT nextval('puc_rastro.sq_id_projeto'::regclass),
  desc_projeto character varying(1000),
- dt_inicio date,
- status_projeto character varying(1),
- nome_projeto character varying(150),
+ dt_inicio date  NOT NULL,
+ status_projeto character varying(1) NOT NULL,
+ nome_projeto character varying(150) NOT NULL,
  CONSTRAINT pk_id_projeto PRIMARY KEY (id_projeto)
 )
 WITH (
@@ -66,7 +66,7 @@ CREATE SEQUENCE sq_id_tp_naofuncional
 
 CREATE TABLE  TipoNaoFuncional (
  id_tp_naofuncional integer NOT NULL DEFAULT nextval('puc_rastro.sq_id_tp_naofuncional'::regclass),
- desc_tp_naofuncional character varying(50),
+ desc_tp_naofuncional character varying(50)  NOT NULL,
  CONSTRAINT pk_id_tp_naofuncional PRIMARY KEY (id_tp_naofuncional)
 )
 WITH (
@@ -85,7 +85,7 @@ CREATE SEQUENCE sq_id_tipo_atividade
 
 CREATE TABLE  Tipo_Atividade (
  id_tipo_atividade integer NOT NULL DEFAULT nextval('puc_rastro.sq_id_tipo_atividade'::regclass),
- desc_tipo_atividade character varying(50),
+ desc_tipo_atividade character varying(50)  NOT NULL,
  CONSTRAINT pk_id_tipo_atividade PRIMARY KEY (id_tipo_atividade)
 )
 WITH (
@@ -104,9 +104,9 @@ CREATE SEQUENCE sq_id_rpd
 
 CREATE TABLE  Rpd (
  id_rpd integer NOT NULL DEFAULT nextval('puc_rastro.sq_id_rpd'::regclass),
- desc_rpd character varying(500),
- status_rpd character varying(1),
- tipo_rpd character varying(1),
+ desc_rpd character varying(500)  NOT NULL,
+ status_rpd character varying(1) NOT NULL,
+ tipo_rpd character varying(1) NOT NULL,
  CONSTRAINT pk_id_rpd PRIMARY KEY (id_rpd)
 )
 WITH (
@@ -125,7 +125,7 @@ CREATE SEQUENCE sq_id_tipo_artefato
 
 CREATE TABLE  Tipo_Artefato (
  id_tipo_artefato integer NOT NULL DEFAULT nextval('puc_rastro.sq_id_tipo_artefato'::regclass),
- desc_tipo_artefato character varying(150),
+ desc_tipo_artefato character varying(150) NOT NULL,
  CONSTRAINT pk_id_tipo_artefato PRIMARY KEY (id_tipo_artefato)
 )
 WITH (
@@ -144,10 +144,10 @@ CREATE SEQUENCE sq_id_artefato
 
 CREATE TABLE  Artefato (
  id_artefato integer NOT NULL DEFAULT nextval('puc_rastro.sq_id_artefato'::regclass),
- nome_artefato character varying(150),
- dt_criacao timestamp,
- status_artefato character varying(1),
- id_tipo_artefato_fk integer, 
+ nome_artefato character varying(150)  NOT NULL,
+ dt_criacao timestamp  NOT NULL,
+ status_artefato character varying(1)  NOT NULL,
+ id_tipo_artefato_fk integer  NOT NULL, 
  CONSTRAINT pk_id_artefato PRIMARY KEY (id_artefato),
  CONSTRAINT fk_id_tipo_artefato_art FOREIGN KEY (id_tipo_artefato_fk)
       REFERENCES puc_rastro.Tipo_Artefato(id_tipo_artefato) MATCH SIMPLE
@@ -170,16 +170,16 @@ CREATE SEQUENCE sq_id_atividade
 
 CREATE TABLE  Atividade (
 id_atividade integer NOT NULL DEFAULT nextval('puc_rastro.sq_id_atividade'::regclass),
- nome_atividade character varying(250),
- dt_inclusao timestamp,
- dt_atualizacao timestamp,
+ nome_atividade character varying(250)  NOT NULL,
+ dt_inclusao timestamp  NOT NULL,
+ dt_atualizacao timestamp  NOT NULL,
  dt_ativ_inicio date,
  dt_ativ_fim    date,
- status_atividade character varying(1),
- fase_atividade character varying(1),
+ status_atividade character varying(1)  NOT NULL,
+ fase_atividade character varying(1)  NOT NULL,
  tempo_esforco_hora integer,
  tempo_esforco_min integer,
- id_projeto_fk integer,
+ id_projeto_fk integer  NOT NULL,
  CONSTRAINT pk_id_atividade PRIMARY KEY (id_atividade),
  CONSTRAINT fk_id_projeto_ati FOREIGN KEY (id_projeto_fk)
       REFERENCES puc_rastro.Projeto(id_projeto) MATCH SIMPLE
@@ -220,10 +220,10 @@ CREATE SEQUENCE sq_id_arquivo
 
 CREATE TABLE  Arquivo (
  id_arquivo integer NOT NULL DEFAULT nextval('puc_rastro.sq_id_arquivo'::regclass),
- nome_arquivo character varying(150),
- dt_arquivo timestamp,
+ nome_arquivo character varying(150)  NOT NULL,
+ dt_arquivo timestamp  NOT NULL,
  ext_arquivo character varying(50),
- id_artefato_fk integer,
+ id_artefato_fk integer  NOT NULL,
  CONSTRAINT pk_id_arquivo PRIMARY KEY (id_arquivo),
  CONSTRAINT fk_id_artefato_arq FOREIGN KEY (id_artefato_fk)
       REFERENCES puc_rastro.Artefato(id_artefato) MATCH SIMPLE
@@ -236,8 +236,8 @@ ALTER TABLE  puc_rastro.Arquivo
   OWNER TO postgres;
 
 CREATE TABLE Projeto_Usuario (
- id_usuario_fk integer,
- id_projeto_fk integer,
+ id_usuario_fk integer  NOT NULL,
+ id_projeto_fk integer  NOT NULL,
 CONSTRAINT fk_id_usuario_pro_usu FOREIGN KEY (id_usuario_fk)
       REFERENCES puc_rastro.Usuario(id_usuario) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -252,8 +252,8 @@ ALTER TABLE  puc_rastro.Projeto_Usuario
   OWNER TO postgres;
 
 CREATE TABLE Rpd_NaoFuncional (
- id_tp_naofuncional_fk integer,
- id_rpd_fk integer,
+ id_tp_naofuncional_fk integer  NOT NULL,
+ id_rpd_fk integer  NOT NULL,
 CONSTRAINT fk_id_tp_naofuncional_rpd_nao FOREIGN KEY (id_tp_naofuncional_fk)
       REFERENCES puc_rastro.TipoNaoFuncional(id_tp_naofuncional) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -268,8 +268,8 @@ ALTER TABLE  puc_rastro.Rpd_NaoFuncional
   OWNER TO postgres;
 
 CREATE TABLE Atividade_Usuario (
- id_usuario_fk integer,
- id_atividade_fk integer,
+ id_usuario_fk integer  NOT NULL,
+ id_atividade_fk integer  NOT NULL,
 CONSTRAINT fk_id_usuario_ati_usu FOREIGN KEY (id_usuario_fk)
       REFERENCES puc_rastro.Usuario(id_usuario) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -284,9 +284,9 @@ ALTER TABLE  puc_rastro.Atividade_Usuario
   OWNER TO postgres;
 
 CREATE TABLE  Simbolo (
- desc_simbolo character varying(250),
- id_atividade_fk integer,
- id_artefato_fk integer,
+ desc_simbolo character varying(250)  NOT NULL,
+ id_atividade_fk integer  NOT NULL,
+ id_artefato_fk integer  NOT NULL,
 CONSTRAINT fk_id_atividade_sim FOREIGN KEY (id_atividade_fk)
       REFERENCES puc_rastro.Atividade(id_atividade) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -301,8 +301,8 @@ ALTER TABLE  puc_rastro.Simbolo
   OWNER TO postgres;
 
 CREATE TABLE Atividade_Tipo_Atividade (
- id_tipo_atividade_fk integer,
- id_atividade_fk integer,
+ id_tipo_atividade_fk integer  NOT NULL,
+ id_atividade_fk integer NOT NULL,
 CONSTRAINT fk_id_atividade_atv_tp FOREIGN KEY (id_atividade_fk)
       REFERENCES puc_rastro.Atividade(id_atividade) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -317,8 +317,8 @@ ALTER TABLE  puc_rastro.Atividade_Tipo_Atividade
   OWNER TO postgres;
 
 CREATE TABLE Usuario_Tipo_Usuario (
- id_tipo_usuario_fk integer,
- id_usuario_fk integer,
+ id_tipo_usuario_fk integer NOT NULL,
+ id_usuario_fk integer NOT NULL,
  CONSTRAINT fk_id_usuario_tp_usu FOREIGN KEY (id_usuario_fk)
       REFERENCES puc_rastro.Usuario(id_usuario) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -333,8 +333,8 @@ ALTER TABLE  puc_rastro.Usuario_Tipo_Usuario
   OWNER TO postgres;
 
 CREATE TABLE Rpd_Artefato (
- id_artefato_fk integer,
- id_rpd_fk integer,
+ id_artefato_fk integer NOT NULL,
+ id_rpd_fk integer NOT NULL,
  CONSTRAINT fk_id_artefato_rpd_art FOREIGN KEY (id_artefato_fk)
       REFERENCES puc_rastro.Artefato(id_artefato) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -349,8 +349,8 @@ ALTER TABLE  puc_rastro.Rpd_Artefato
   OWNER TO postgres;
 
 CREATE TABLE Rpd_Atividade (
- id_atividade_fk integer,
- id_rpd_fk integer,
+ id_atividade_fk integer NOT NULL,
+ id_rpd_fk integer NOT NULL,
 CONSTRAINT fk_id_atividade_rpd_ati FOREIGN KEY (id_atividade_fk)
       REFERENCES puc_rastro.Atividade(id_atividade) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
