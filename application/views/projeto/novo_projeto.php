@@ -12,7 +12,7 @@
   </head>
   <body>
     
-         <nav class="top-bar" data-topbar>
+    <nav class="top-bar" data-topbar>
     <ul class="title-area">
        
       <li class="name">
@@ -155,7 +155,7 @@
             <div class="medium-4 medium-4 push-8 columns">
             </div>
             <div class="medium-8 medium-8 pull-4 columns">
-            <p class="copyright">© 2014–2014 NINO, All rights reserved.</p>
+            <p class="copyright">© 2014–2014 Nino, All rights reserved.</p>
             </div>
         </div>
     </div>
